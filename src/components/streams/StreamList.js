@@ -11,13 +11,13 @@ class StreamList extends React.Component {
   renderAdmin(stream) {
     if (stream.userId === this.props.currentUserId) {
       return (
-        <div className="right floated content">
-          <Link to={`/streams/edit/${stream.id}`} className="ui button primary">
+        <div className='right floated content'>
+          <Link to={`/streams/edit/${stream.id}`} className='ui button primary'>
             Edit
           </Link>
           <Link
             to={`/streams/delete/${stream.id}`}
-            className="ui button negative"
+            className='ui button negative'
           >
             Delete
           </Link>
@@ -27,14 +27,16 @@ class StreamList extends React.Component {
   }
 
   renderList() {
-    return this.props.streams.map(stream => {
+    return this.props.streams.map((stream) => {
       return (
-        <div className="item" key={stream.id}>
+        <div className='item' key={stream.id}>
           {this.renderAdmin(stream)}
-          <i className="large middle aligned icon camera" />
-          <div className="content">
-            {stream.title}
-            <div className="description">{stream.description}</div>
+          <i className='large middle aligned icon camera' />
+          <div className='content'>
+            <Link to={`/streams/${stream.id}`} className='header'>
+              {stream.title}
+            </Link>
+            <div className='description'>{stream.description}</div>
           </div>
         </div>
       );
@@ -45,7 +47,7 @@ class StreamList extends React.Component {
     if (this.props.isSignedIn) {
       return (
         <div style={{ textAlign: 'right' }}>
-          <Link to="/streams/new" className="ui button primary">
+          <Link to='/streams/new' className='ui button primary'>
             Create Stream
           </Link>
         </div>
@@ -57,22 +59,19 @@ class StreamList extends React.Component {
     return (
       <div>
         <h2>Streams</h2>
-        <div className="ui celled list">{this.renderList()}</div>
+        <div className='ui celled list'>{this.renderList()}</div>
         {this.renderCreate()}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     streams: Object.values(state.streams),
     currentUserId: state.auth.userId,
-    isSignedIn: state.auth.isSignedIn
+    isSignedIn: state.auth.isSignedIn,
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { fetchStreams }
-)(StreamList);
+export default connect(mapStateToProps, { fetchStreams })(StreamList);
